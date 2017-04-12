@@ -1,0 +1,68 @@
+<!-- @TODO: le transformer en JS -->
+
+
+<!-- memo JS pour affichage web:
+    //var div = document.getElementById("zone"); 
+    document.getElementById("zone").innerHTML; 
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Lecture et parsing d'un fichier JSON</title>
+  </head>
+  <body>
+    
+    <!-- Import script PHP -->
+    <include src='test_Trajectoire_1Taxi.php'></include>
+      
+    <!-- Import JQUERY -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+     
+    <div id="zone"></div>
+      
+    <script>
+        
+    var lat = new Array();          //tableu des latitudes
+    var lng = new Array();          //Tableau des longitudes
+    var _top_lng = 0;               //pointeur de pile des tableaux
+    var _top_lat = 0;
+
+    
+    /*Methode lecture JSON */
+    $.ajax({
+        url: "employes.json",       //fichier JSON
+        async: false,               //Synchrone 
+        dataType: 'json',
+        success: function(data)     //lecture donnees
+        {
+            //$('#zone').append('lat : ' + data.lat + '<br>');      //affichage
+            //$('#zone').append('lng : ' + data.lng + '<br>');
+            for(i in data.lat)              //recupere latitudes
+            {
+                lat[_top_lat] = data.lat[i];
+                _top_lat = _top_lat+1;           
+            }  
+            for(i in data.lng)              //Recupere longitudes
+            {
+                lng[_top_lng] = data.lng[i];
+                _top_lng = _top_lng+1;           
+            }  
+        }
+            
+    });
+        
+        
+    //Boucle affichage et parcours des coords 
+    for(var i= 0; i < _top_lat; i++)
+    {
+       document.write("lat :"+lat[i]+" long: "+lng[i]);
+       document.write("<BR/>");
+    }
+    
+
+
+    </script>
+  </body>
+</html>
